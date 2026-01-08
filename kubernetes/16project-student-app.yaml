@@ -1,0 +1,73 @@
+# create eks cluster
+# create RDS on one of the nodes and name that node as database
+# add password
+# select ec2 (database)
+# vpc security eks-cluster947456
+# create the databse
+# install docker on master node
+# sudo apt update -y
+# sudo apt install docker.io -y
+# sudo systemctl start docker
+# sudo systemctl enable docker
+# sudo usermod -aG docker ubuntu
+# newgrp docker
+# sudo chmod 777 /var/run/docker.sock 
+# clone repository on master node of eks
+# git clone https://github.com/abhipraydhoble/project-studentapp-updated-k8s.git
+# cd project-studentapp-updated-k8s/
+# for setting up database connect to node databae
+# if it doesnt open then go to its security group you selected while creating database 
+# then add inboud rule to all traffic =anywhere and connect it
+# in database node
+# run all commands which are present in database folder
+# go to master node 
+# and open project file 
+# cd project-studentapp-updated-k8s/
+# cd backend/
+# ls
+# sudo vim application.properties
+#  edit rds endpoint,username,password
+# sudo vim Dockerfile
+# exit
+# build docker backed image
+# docker build -t ashu1808/b31-backend .
+# push dockerfile of backend to your dockerhub
+# docker login -u ashu1808 
+# add password
+# docker push ashu1808/b31-backend
+# vim deployment.yaml
+# edit image: ashu1808/b31-backend
+# cat service.yaml
+# kubectl apply -f deployment.yaml
+# kubectl apply -f service.yaml
+# kubectl get pods
+# kubectl get svc
+# cd ..
+# cd frontend/
+# vim .env
+# (copy paste the backends kubectl get svc link)
+# cat Dockerfile
+# docker build -t ashu1808/b31-frontend .
+# docker push ashu1808/b31-frontend
+# vim deployment.yaml
+# edit image: ashu1808/b31-frontend
+# cat service.yaml
+# kubectl apply -f deployment.yaml 
+# kubectl apply -f service.yaml
+# kubectl get pods
+# kubectl get svc
+
+# go to eks's cluster network
+# then open clusters security group
+# add all traffic to both security groups
+# kubectl get svc
+# copy the frontend's elb link
+
+
+
+
+# database---->backend------>frontend
+# application.properties
+# - rds endpoint
+# - username
+# - passwords

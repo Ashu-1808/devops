@@ -1,0 +1,61 @@
+#vim pv.yaml
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-example
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:   
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  hostPath:
+    path: "/mnt/data"  
+---
+# kubectl apply -f pv.yaml
+#kubectl get pv  or kubectl get persistentvolume
+---
+
+#vim pvc.yaml
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-example
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: manual
+---
+# kubectl apply -f pvc.yaml
+# kubectl get pvc or kubectl get persistentvolumeclaim
+---
+#vim pod.yaml
+---
+apiVersion: v1
+kind: Pod
+metadata:
+ name: mypod
+spec: 
+  containers:
+  - name: myfrontend
+    image: nginx
+    volumeMounts:
+    - mountPath: "/var/www/html"
+      name: pv-example
+
+  volumes:
+  - name: pv-example
+    persistentVolumeClaim:
+      claimName: pvc-example
+---
+# kubectl apply -f pod.yaml
+# kubectl get pods
+
+# kubectl describe pod <pod-name>

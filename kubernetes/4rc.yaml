@@ -1,0 +1,45 @@
+#vim rc.yaml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: rc-coffee
+spec:
+  replicas: 3
+  selector:
+    env: dev
+  template:
+    metadata:
+      name: tmp-coffee
+      labels:
+        env: dev
+    spec:
+     containers:
+      - name: c1
+        image: abhipraydh96/coffee
+        ports:
+        - containerPort: 80
+
+#kubectl apply -f rc.yaml
+#kubectl get rc
+#kubectl get pods
+
+
+#vim service.yaml
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: svc-coffee
+spec:
+  selector:
+     env: dev
+  ports:
+   - protocol: "TCP"
+     port: 80
+     targetPort: 80
+  type: NodePort  
+#kubectl apply -f service.yaml
+#kubectl get svc
+#kubectl get pods
+#kubectl delete pod rc-coffee-hwvbs rc-coffee-trxs8
+#kubectl get pods

@@ -1,0 +1,4 @@
+imparative way
+kubectl run pod-one --image=nginx
+kubectl expose pod pod-one --port=80 --target-port=80 --type=ClusterIP
+kubectl exec -it pod-one -- curl 10.100.86.46

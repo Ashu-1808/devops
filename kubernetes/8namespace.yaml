@@ -1,0 +1,72 @@
+#kubectl get ns
+#kubectl get namespace
+#kubectl create ns studentapp
+# kubectl create ns test
+# ----OR----
+#vim  dev-ns.yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata: 
+  name: dev
+---
+#kubectl apply -f dev-ns.yaml
+---
+#kubectl get namespace
+---
+#vim netflix.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streaming-dep
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: netflix
+  template:
+    metadata:
+      name: temp01
+      labels:
+        app: netflix
+    spec:
+      containers:
+      -  name: cont-stream
+         image: abhipraydh96/streaming
+         ports:
+         - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: streaming-svc
+spec:
+  type: NodePort
+  selector:
+    app: netflix
+  ports:
+  - protocol: "TCP"
+    port: 80
+    targetPort: 80
+---
+#kubectl apply -f netflix.yaml -n test
+#kubectl get deploy
+#kubectl get deploy -n test
+#kubectl create ns production
+#kubectl get ns
+#kubectl run pod-1 --image=nginx -n production
+#kubectl get pods -n production
+#kubectl create ns dev
+#kubectl config set-context --current --namespace=dev (to make dev default namespace)
+#kubectl config view --minify | grep namespace:   (shows the current context and namespace)
+# kubectl config get-contexts (shows the current context and namespace)
+#kubectl run dev-pod --image=nginx 
+#kubectl get pods 
+#kubectl config set-context --current --namespace=default
+#kubectl config view --minify | grep namespace:
+#kubectl get pods --all-namespaces
+---
+---
+
+---

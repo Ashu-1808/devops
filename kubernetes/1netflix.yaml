@@ -1,0 +1,34 @@
+#sudo vim netflix.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: netflix
+  labels:
+    app: streaming-app
+spec:
+  containers:
+   - name: c1
+     image: abhipraydh96/straming
+     ports:
+      - containerPort: 80
+#kubectl apply -f netflix.yaml
+#kubectl get pods
+
+---       
+
+#sudo vim service.yaml
+apiVersion: v1
+kind: Service
+metadata: 
+  name: svc-netflix
+spec:
+  selector:
+     app: streaming-app
+  ports:
+   - protocol: "TCP"
+     port: 80
+     targetPort: 80
+  type: NodePort  
+#kubectl apply -f service.yaml
+#kubectl get svc 

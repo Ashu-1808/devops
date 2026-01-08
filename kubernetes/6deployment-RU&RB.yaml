@@ -1,0 +1,55 @@
+#vim stdapp.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: std-app-dep
+spec: 
+  replicas: 3
+  selector:
+    matchLabels:
+      env: dev
+  template:
+    metadata:
+        name: tmp-01
+        labels:
+          env: dev
+    spec:
+      containers:
+        - name: cont-1
+          image: abhipraydh96/studentapp:v1
+          ports:
+           - containerPort: 80      
+---
+
+#kubectl apply -f stdapp.yaml
+#kubectl get deploy
+#kubectl get pods
+
+#vim svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-stdapp
+spec:
+  selector:
+    env: dev
+  ports:
+   - protocol: "TCP"
+     port: 80    
+     targetPort: 80    
+  type: NodePort
+#kubectl apply -f svc.yaml
+#kubectl get deploy
+#kubectl get pods
+#kubectl get svc
+#kubectl get deploy -o wide
+#kubectl set image deploy/std-app-dep cont-1=abhipraydh96/studentapp:v2 --record
+#kubectl get deploy -o wide
+#kubectl rollout history deploy/std-app-dep
+#kubectl rollout undo deploy/std-app-dep
+#kubectl get deploy -o wide
+#kubectl set image deploy/std-app-dep cont-1=abhipraydh96/studentapp:v3 --record
+#kubectl set image deploy/std-app-dep cont-1=abhipraydh96/studentapp:v4 --record
+#kubectl set image deploy/std-app-dep cont-1=abhipraydh96/studentapp:v5 --record
+#kubectl rollout undo deploy/std-app-deploy --to-revision=2

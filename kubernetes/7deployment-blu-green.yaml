@@ -1,0 +1,67 @@
+#vim blue.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: studentapp1
+spec: 
+  replicas: 3
+  selector:
+    matchLabels:
+      app: blue
+  template:
+    metadata:
+      name: tmp-01
+      labels:
+        app: blue
+    spec:
+      containers:
+       - name: cont-1
+         image: abhipraydh96/studentapp:v1
+         ports:
+          - containerPort: 80     
+---
+#kubectl apply -f blue.yaml
+#kubectl get deploy
+---
+#vim green.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: studentapp2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: green
+  template:
+    metadata:
+      labels:
+        app: green
+    spec:
+      containers:
+      - name: cont-1
+        image: abhipraydh96/studentapp:v2
+        ports:
+        - containerPort: 80
+---           
+#kubectl apply -f green.yaml
+#kubectl get deploy
+---
+#vim svc.yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: studentapp1
+spec:
+  containers:
+   - protocol: "TCP"
+     port: 80
+     containerPort: 80
+---     
+#kubectl apply -f svc.yaml
+#kubectl get svc
+#(if you want to change to studentapp2 edit svc file name: studentapp2 )
+#and apply

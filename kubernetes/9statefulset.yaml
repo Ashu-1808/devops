@@ -1,0 +1,78 @@
+#vim dep.yaml
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: coffee
+spec:
+  serviceName: coffee-svc
+  replicas: 3
+  selector:
+    matchLabels:
+      env: dev
+  template:
+    metadata:
+      labels:
+        env: dev
+    spec:
+      containers:
+      - name: cont-1
+        image: abhipraydh96/coffee
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: coffee-data
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: coffee-data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+---
+#kubectl apply -f dep.yaml
+#kubectl get deploy
+#kubectl get pods
+#kubectl delete pod coffee-9152fdgfjh 
+
+#vim statefulset.yaml
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+spec:
+  serviceName: redis
+  replicas: 3
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+       - name: redis
+         image: redis:5.0.5
+         ports:
+         - containerPort: 6379
+           name: redis
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+---
+#kubectl apply -f statefulset.yaml
+#kubectl get sts
+#kubectl get statefulset
+#kubectl get pods
+#kubectl delete pod redis-1
+---

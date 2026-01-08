@@ -1,0 +1,26 @@
+# vim daemonset.yaml
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: test-agent
+spec:
+  selector:
+    matchLabels:
+      app: test-2
+  template:
+    metadata:
+      labels:
+        app: test-2
+    spec:
+      nodeSelector:              # target only testing nodes
+        testing-node: "true"
+      containers:
+      - name: agent
+        image: nginx
+        
+---
+# kubectl apply -f daemonset.yaml
+# kubectl get pods -o wide
+# kubectl get nodes --show-labels
+# 
